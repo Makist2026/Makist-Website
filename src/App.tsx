@@ -84,7 +84,7 @@ function Nav({ theme, toggleTheme }: { theme: 'light' | 'dark'; toggleTheme: () 
 
   return (
     <header className="sticky top-0 z-50 border-b border-surface header-bg backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-0 sm:px-8">
+      <div className="mx-auto flex h-28 max-w-7xl items-center justify-between px-5 sm:px-8">
         <Logo theme={theme} />
         <nav className="hidden items-center gap-8 md:flex">
           {links.map(([label, href]) => (
