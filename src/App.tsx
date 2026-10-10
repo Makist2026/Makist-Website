@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, type ReactNode } from 'react'
 import {
+  ArrowLeft,
   ArrowRight,
   ArrowUp,
   Check,
@@ -18,9 +19,6 @@ import {
   X,
   Moon,
   Sun,
-  ExternalLink,
-  Link,
-  Share,
   Globe,
 } from 'lucide-react'
 // import { useState, useRef } from 'react'
@@ -28,18 +26,25 @@ import emailjs from '@emailjs/browser'
 // import { ArrowRight } from 'lucide-react'
 import logoJpg from './assets/logo1.png'
 import logo2 from './assets/logo2.png'
-import teamImg from './assets/team.svg'
+import teamImg from './assets/team-photo.png'
+import petersPortrait from './assets/peters-emmanuel.png'
+import sundayPortrait from './assets/sunday-maxwell.png'
+import oladipupoPortrait from './assets/oladipupo-ayomide.png'
+import chukwukaPortrait from './assets/chukwuka-stephanie.jpg'
 import finedgeImg from './assets/finedge.png'
 import nexusImg from './assets/nexus.jpg'
 import auraImg from './assets/aura.png'
 
-function Logo({ theme }: { theme?: 'light' | 'dark' }) {
+function Logo({ theme, size = 'nav' }: { theme?: 'light' | 'dark'; size?: 'nav' | 'footer' }) {
+  const imageSize = size === 'footer' ? 'h-40 md:h-44' : 'h-32 md:h-36'
+  const imageScale = size === 'nav' ? 'origin-left scale-125' : ''
+
   if (theme === 'dark') {
-    return <img src={logoJpg} alt="Makist" className="h-20 w-auto md:h-24 object-contain" />
+    return <img src={logoJpg} alt="Makist" className={`${imageSize} ${imageScale} w-auto object-contain`} />
   }
 
   if (theme === 'light') {
-    return <img src={logo2} alt="Makist" className="h-20 w-auto md:h-24 object-contain" />
+    return <img src={logo2} alt="Makist" className={`${imageSize} ${imageScale} w-auto object-contain`} />
   }
 
   return (
@@ -259,8 +264,11 @@ function Advantage() {
           </div>
         </div>
         <div className="relative">
-          <div className="overflow-hidden rounded-2xl border border-white/10">
-            <img src={teamImg} alt="Makist team collaborating" loading="lazy" width={1200} height={900} className="h-full w-full object-cover" />
+          <h3 className="mb-4 text-3xl font-bold tracking-[0.2em] text-white sm:text-4xl">
+            FOUNDERS
+          </h3>
+          <div className="aspect-video overflow-hidden rounded-2xl border border-white/10">
+            <img src={teamImg} alt="Makist team portrait" loading="lazy" width={1365} height={768} className="h-full w-full object-cover" />
           </div>
         </div>
       </div>
@@ -509,6 +517,136 @@ function Testimonials() {
   )
 }
 
+function MakistTeam() {
+  const [activeSlide, setActiveSlide] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
+  const members = [
+    { name: 'PETERS EMMANUEL', position: 'CEO-FOUNDER', portrait: petersPortrait },
+    { name: 'SUNDAY MAXWELL', position: 'CTO__CO-FOUNDER', portrait: sundayPortrait },
+    { name: 'CHUKWUKA STEPHANIE', position: 'CPO__CO-FOUNDER', portrait: chukwukaPortrait },
+    { name: 'OLADIPUPO AYOMIDE', position: 'CMO', portrait: oladipupoPortrait },
+  ]
+  const member = members[activeSlide]
+
+  useEffect(() => {
+    if (isPaused) return
+
+    const intervalId = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % members.length)
+    }, 5000)
+
+    return () => window.clearInterval(intervalId)
+  }, [isPaused, members.length])
+
+  return (
+    <section id="makist-team" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+      <div className="mx-auto max-w-2xl text-center">
+        <Eyebrow>Meet the people behind the work</Eyebrow>
+        <h2 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          MAKIST TEAM
+        </h2>
+        <p className="mt-4 text-white/60">
+          Meet the people behind Makist.
+        </p>
+      </div>
+
+      <div
+        className="mt-12 grid gap-12 lg:grid-cols-2 lg:items-center"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocusCapture={() => setIsPaused(true)}
+        onBlurCapture={() => setIsPaused(false)}
+      >
+        <div className="grid grid-cols-2 gap-4 sm:gap-6">
+          {members.map((teamMember, index) => (
+            <button
+              key={teamMember.name}
+              type="button"
+              aria-label={`View ${teamMember.name}`}
+              aria-current={activeSlide === index ? 'true' : undefined}
+              onClick={() => setActiveSlide(index)}
+              className={`group relative aspect-[4/5] overflow-hidden rounded-2xl border text-left transition ${
+                activeSlide === index
+                  ? 'border-primary shadow-[0_0_0_1px_rgba(93,216,255,0.35)]'
+                  : 'border-white/10 hover:border-primary/50'
+              }`}
+            >
+              <img
+                src={teamMember.portrait}
+                alt=""
+                className="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent px-3 pb-3 pt-10 sm:px-4 sm:pb-4">
+                <p className="text-xs font-semibold text-white sm:text-sm">{teamMember.name}</p>
+                <p className="mt-1 text-[10px] text-primary sm:text-xs">{teamMember.position}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        <div className="mx-auto w-full max-w-md">
+          <div className="card-surface overflow-hidden rounded-2xl">
+            <div className="relative flex aspect-[2/3] items-center justify-center overflow-hidden bg-white/5">
+              {member.portrait ? (
+                <img
+                  src={member.portrait}
+                  alt={`Portrait of ${member.name}`}
+                  className="h-full w-full object-cover object-top"
+                />
+              ) : (
+                <div className="flex flex-col items-center gap-3 text-white/40">
+                  <Users className="h-12 w-12" aria-hidden="true" />
+                  <span className="text-sm">Portrait</span>
+                </div>
+              )}
+            </div>
+            <div className="p-5 sm:p-6">
+              <h3 className="text-xl font-semibold text-white">{member.name}</h3>
+              <p className="mt-1 text-sm text-primary">{member.position}</p>
+            </div>
+          </div>
+
+          <div className="mt-6 flex items-center justify-between">
+            <button
+              type="button"
+              aria-label="Previous team member"
+              onClick={() => setActiveSlide((current) => (current + members.length - 1) % members.length)}
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/10 text-white transition hover:border-primary/50 hover:text-primary"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <div className="flex items-center gap-3" aria-label={`Slide ${activeSlide + 1} of ${members.length}`}>
+              {members.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  aria-label={`Show team member ${index + 1}`}
+                  aria-current={activeSlide === index ? 'step' : undefined}
+                  onClick={() => setActiveSlide(index)}
+                  className={`h-2.5 rounded-full transition-all ${
+                    activeSlide === index ? 'w-8 bg-primary' : 'w-2.5 bg-white/25 hover:bg-white/50'
+                  }`}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              aria-label="Next team member"
+              onClick={() => setActiveSlide((current) => (current + 1) % members.length)}
+              className="grid h-11 w-11 place-items-center rounded-full border border-white/10 text-white transition hover:border-primary/50 hover:text-primary"
+            >
+              <ArrowRight className="h-5 w-5" />
+            </button>
+          </div>
+          <p className="mt-3 text-center text-xs text-white/45">
+            {String(activeSlide + 1).padStart(2, '0')} / {String(members.length).padStart(2, '0')}
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function Pricing() {
   const tiers = [
     {
@@ -714,25 +852,75 @@ function Insights() {
 function Contact() {
   const formRef = useRef<HTMLFormElement>(null)
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const recipientEmail = 'makist2026@gmail.com'
+  const emailServiceId = import.meta.env.VITE_EMAILJS_SERVICE_ID as string | undefined
+  const emailTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined
+  const emailPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string | undefined
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formRef.current) return
-    setStatus('sending')
 
-    emailjs
-      .sendForm(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
-        formRef.current,
-        'YOUR_PUBLIC_KEY'
+    const form = formRef.current
+    const formData = new FormData(form)
+    const fromName = String(formData.get('from_name') ?? '').trim()
+    const company = String(formData.get('company') ?? '').trim()
+    const fromEmail = String(formData.get('from_email') ?? '').trim()
+    const projectDetails = String(formData.get('message') ?? '').trim()
+
+    if (!fromName || !fromEmail || !projectDetails) {
+      setErrorMessage('Please complete your name, email, and project details.')
+      setStatus('error')
+      return
+    }
+
+    if (!emailServiceId || !emailTemplateId || !emailPublicKey) {
+      setErrorMessage('Email delivery is not configured for this site. Please contact us by email.')
+      setStatus('error')
+      return
+    }
+
+    setStatus('sending')
+    setErrorMessage('')
+
+    const subject = `New inquiry from ${fromName}${company ? ` (${company})` : ''}`
+
+    try {
+      await emailjs.send(
+        emailServiceId,
+        emailTemplateId,
+        {
+          from_name: fromName,
+          company,
+          from_email: fromEmail,
+          message: projectDetails,
+          project_details: projectDetails,
+          to_email: recipientEmail,
+          reply_to: fromEmail,
+          subject,
+        },
+        emailPublicKey
       )
-      .then(() => {
-        setStatus('sent')
-        formRef.current?.reset()
-      })
-      .catch(() => setStatus('error'))
+
+      setStatus('sent')
+      form.reset()
+    } catch (error) {
+      console.error('EmailJS contact form submission failed:', error)
+      const responseText =
+        typeof error === 'object' && error !== null && 'text' in error && typeof error.text === 'string'
+          ? error.text
+          : ''
+      setErrorMessage(
+        responseText
+          ? `Email delivery failed: ${responseText}`
+          : 'Email delivery failed. Please try again or contact us by email.'
+      )
+      setStatus('error')
+    }
   }
+
   return (
     <section id="contact" className="relative overflow-hidden">
       <div className="pointer-events-none absolute -left-40 top-10 h-[520px] w-[520px] rounded-full bg-primary/20 blur-3xl" />
@@ -758,8 +946,8 @@ function Contact() {
               </div>
               <div>
                 <div className="text-sm font-semibold text-white">General Inquiries</div>
-                <a href="mailto:hello@makist.co" className="mt-1 block text-sm text-primary">
-                  hello@makist.co
+                <a href="mailto:makist2026@gmail.com" className="mt-1 block text-sm text-primary">
+                  makist2026@gmail.com
                 </a>
               </div>
             </div>
@@ -767,16 +955,18 @@ function Contact() {
 
           <form ref={formRef} onSubmit={handleSubmit} className="card-surface p-6 sm:p-8">
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Name" name="from_name" placeholder="Ada Lovelace" />
+              <Field label="Name" name="from_name" placeholder="Ada Lovelace" required />
               <Field label="Company" name="company" placeholder="Analytical Engines" />
             </div>
             <div className="mt-4">
-              <Field label="Email" name="from_email" type="email" placeholder="ada@company.com" />
+              <Field label="Email" name="from_email" type="email" placeholder="ada@company.com" required />
             </div>
             <div className="mt-4">
               <label className="block text-xs font-medium text-white/70">Project Details</label>
               <textarea
+                name="message"
                 rows={5}
+                required
                 placeholder="Tell us what you're building…"
                 className="mt-2 w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-primary focus:outline-none"
               />
@@ -784,13 +974,20 @@ function Contact() {
             <button
               type="submit"
               disabled={status === 'sending'}
-              className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+              className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 disabled:opacity-60"
             >
               {status === 'sending' ? 'Sending…' : status === 'sent' ? 'Sent!' : 'Send Transmission'}
-              Send Transmission <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4" />
             </button>
             {status === 'error' && (
-              <p className="mt-3 text-sm text-red-400">Something went wrong — please try again.</p>
+              <p role="alert" className="mt-3 text-sm text-red-400">
+                {errorMessage}
+              </p>
+            )}
+            {status === 'sent' && (
+              <p role="status" className="mt-3 text-sm text-green-400">
+                Your inquiry was sent successfully. We’ll be in touch soon.
+              </p>
             )}
           </form>
         </div>
@@ -828,11 +1025,13 @@ function Field({
   name,
   type = 'text',
   placeholder,
+  required = false,
 }: {
   label: string
   name: string
   type?: string
   placeholder?: string
+  required?: boolean
 }) {
   return (
     <div>
@@ -841,6 +1040,7 @@ function Field({
         name={name}
         type={type}
         placeholder={placeholder}
+        required={required}
         className="mt-2 w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:border-primary focus:outline-none"
       />
     </div>
@@ -848,6 +1048,46 @@ function Field({
 }
 
 function Footer({ theme }: { theme?: 'light' | 'dark' }) {
+  const socialLinks = [
+    {
+      name: 'Facebook',
+      href: 'https://www.facebook.com/share/1FeEaBYQVQ/?mibextid=wwXIfr',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-4 w-4">
+          <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.019 4.388 11.005 10.125 11.855v-8.385H7.078v-3.47h3.047V9.428c0-3.026 1.792-4.7 4.533-4.7 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.49 0-1.953.93-1.953 1.886v2.27h3.328l-.532 3.47h-2.796v8.385C19.612 23.078 24 18.092 24 12.073z" />
+        </svg>
+      ),
+    },
+    {
+      name: 'Instagram',
+      href: 'https://www.instagram.com/makist_tech?mdxt=am9pdWE1Mms1bHAy&utm_source=qr',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true" className="h-4 w-4">
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="18" cy="6" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      ),
+    },
+    {
+      name: 'X',
+      href: 'https://x.com/makisttech?s=11',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-4 w-4">
+          <path d="M18.9 2H22l-6.78 7.75L23.2 22h-6.25l-4.9-7.36L5.6 22H2.47l7.25-8.29L1.9 2h6.4l4.43 6.76L18.9 2Zm-1.1 18h1.73L7.37 3.89H5.51L17.8 20Z" />
+        </svg>
+      ),
+    },
+    {
+      name: 'WhatsApp',
+      href: 'https://wa.me/2347041350693',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="h-4 w-4">
+          <path d="M12.04 2a9.92 9.92 0 0 0-8.5 15.05L2.2 22l5.08-1.33A10 10 0 1 0 12.04 2Zm0 18.17a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.02.79.8-2.94-.2-.31a8.18 8.18 0 1 1 6.9 3.78Zm4.5-6.13c-.25-.13-1.48-.73-1.71-.81-.23-.09-.4-.13-.57.13-.17.25-.65.81-.8.98-.15.17-.3.19-.55.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.25-1.5-1.4-1.75-.15-.26-.02-.4.11-.53.12-.11.25-.3.38-.44.13-.15.17-.26.25-.43.08-.17.04-.32-.02-.45-.07-.13-.57-1.37-.78-1.88-.2-.49-.42-.42-.57-.43h-.49c-.17 0-.45.06-.68.32-.23.25-.89.87-.89 2.12s.91 2.46 1.04 2.63c.13.17 1.8 2.75 4.36 3.85.61.26 1.09.42 1.46.54.61.19 1.16.16 1.6.1.49-.08 1.48-.61 1.69-1.2.21-.59.21-1.1.15-1.2-.06-.11-.23-.17-.49-.3Z" />
+        </svg>
+      ),
+    },
+  ]
   const cols = [
     {
       title: 'Services',
@@ -861,20 +1101,22 @@ function Footer({ theme }: { theme?: 'light' | 'dark' }) {
     <footer className="border-t border-white/5">
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-4">
           <div>
-          <Logo theme={theme} />
+          <Logo theme={theme} size="footer" />
           <p className="mt-4 max-w-xs text-sm text-white/55">
             Engineering digital dominance for ambitious brands, category leaders, and
             founders who refuse to blend in.
           </p>
           <div className="mt-5 flex gap-3">
-            {[ExternalLink, Link, Share, Globe].map((Icon, i) => (
+            {socialLinks.map(({ name, href, icon }) => (
               <a
-                key={i}
-                href="#"
-                aria-label="social"
+                key={name}
+                href={href}
+                aria-label={`Visit Makist on ${name}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="grid h-9 w-9 place-items-center rounded-md border border-white/10 text-white/60 transition hover:border-primary/40 hover:text-primary"
               >
-                <Icon className="h-4 w-4" />
+                {icon}
               </a>
             ))}
           </div>
@@ -933,6 +1175,7 @@ function MakistLanding() {
         <TrustSection />
         <CaseStudies />
         <Testimonials />
+        <MakistTeam />
         <Pricing />
         <Insights />
         <Contact />
