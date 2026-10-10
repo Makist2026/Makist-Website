@@ -7,6 +7,6 @@ import react from '@vitejs/plugin-react'
 // })
 
 export default defineConfig({
-  base: '/Makist/',
+  base: '/Makist-Website/',
   plugins: [react()],
 })
