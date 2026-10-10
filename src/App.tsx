@@ -1166,9 +1166,9 @@ function MakistLanding() {
   const toggleTheme = () => setTheme((value) => (value === 'dark' ? 'light' : 'dark'))
 
   return (
-    <div className="min-h-screen bg-page text-content">
+    <div className="min-h-screen overflow-x-clip bg-page text-content">
       <Nav theme={theme} toggleTheme={toggleTheme} />
-      <main className="overflow-x-clip">
+      <main>
         <Hero />
         <Advantage />
         <Capabilities />
