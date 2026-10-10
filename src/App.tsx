@@ -146,7 +146,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden">
       <div className="pointer-events-none absolute -right-40 top-10 h-[520px] w-[520px] rounded-full bg-primary/25 blur-3xl" />
-      <div className="mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-16 sm:px-8 md:pt-24 lg:grid-cols-2 lg:gap-10">
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-12 sm:px-8 sm:pt-16 md:pt-24 lg:grid-cols-2 lg:gap-10">
         <div className="max-w-xl">
           <PillBadge>
             <span className="h-1.5 w-1.5 rounded-full bg-primary" /> Makist© is Live
@@ -233,7 +233,7 @@ function Advantage() {
   ] as const
 
   return (
-    <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+    <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20 md:py-32">
       <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
         <div>
           <Eyebrow>The Difference</Eyebrow>
@@ -306,7 +306,7 @@ function Capabilities() {
   ]
 
   return (
-    <section id="services" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+    <section id="services" className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20 md:py-32">
       <div className="mx-auto max-w-2xl text-center">
         <Eyebrow>Capabilities</Eyebrow>
         <h2 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
@@ -367,7 +367,7 @@ function TrustSection() {
   ]
 
   return (
-    <section className="relative mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+    <section className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20 md:py-32">
       <div className="pointer-events-none absolute left-1/4 top-10 h-[400px] w-[400px] rounded-full bg-primary/15 blur-3xl" />
       <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
         <div>
@@ -433,7 +433,7 @@ function CaseStudies() {
   ]
 
   return (
-    <section id="work" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+    <section id="work" className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20 md:py-32">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-xl">
           <Eyebrow>Our Work</Eyebrow>
@@ -490,7 +490,7 @@ function Testimonials() {
   ]
 
   return (
-    <section id="testimonials" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+    <section id="testimonials" className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20 md:py-32">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Don't take our word for it.</h2>
         <p className="mt-4 text-white/60">
@@ -539,7 +539,7 @@ function MakistTeam() {
   }, [isPaused, members.length])
 
   return (
-    <section id="makist-team" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+    <section id="makist-team" className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20 md:py-32">
       <div className="mx-auto max-w-2xl text-center">
         <Eyebrow>Meet the people behind the work</Eyebrow>
         <h2 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
@@ -679,7 +679,7 @@ function Pricing() {
   ]
 
   return (
-    <section id="pricing" className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+    <section id="pricing" className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20 md:py-32">
       <div className="mx-auto max-w-2xl text-center">
         <Eyebrow>Investment</Eyebrow>
         <h2 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
@@ -762,7 +762,7 @@ function Insights() {
   ]
 
   return (
-    <section className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+    <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20 md:py-32">
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div className="max-w-xl">
           <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Agency Insights</h2>
@@ -924,7 +924,7 @@ function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden">
       <div className="pointer-events-none absolute -left-40 top-10 h-[520px] w-[520px] rounded-full bg-primary/20 blur-3xl" />
-      <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8 md:py-32">
+      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20 md:py-32">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
           <div>
             <PillBadge>
@@ -1168,7 +1168,7 @@ function MakistLanding() {
   return (
     <div className="min-h-screen bg-page text-content">
       <Nav theme={theme} toggleTheme={toggleTheme} />
-      <main>
+      <main className="overflow-x-clip">
         <Hero />
         <Advantage />
         <Capabilities />
